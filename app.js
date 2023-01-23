@@ -17,6 +17,7 @@ class UI {
                     <strong>Product Name: </strong> ${product.name}
                     <strong>Product Price: </strong> ${product.price}
                     <strong>Product Year: </strong> ${product.year}
+                    <a href="#" class="btn btn-danger" name="delete">Delete</a>
                 </div>
             </div>
         `;
@@ -28,8 +29,10 @@ class UI {
         document.getElementById('product-form').reset();
     }
 
-    deleteProduct(){
-
+    deleteProduct(element){
+        if (element.name === 'delete') {
+            element.parentElement.parentElement.parentElement.remove(); //Eliminar card
+        }
     }
 
     showMessage(){
@@ -54,4 +57,9 @@ document.getElementById('product-form')
 
         //Cancelar evento reload de la app
         e.preventDefault();
+});
+
+document.getElementById('product-list').addEventListener('click', function(e) {
+    const ui = new UI();
+    ui.deleteProduct(e.target);
 });
