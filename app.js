@@ -32,11 +32,24 @@ class UI {
     deleteProduct(element){
         if (element.name === 'delete') {
             element.parentElement.parentElement.parentElement.remove(); //Eliminar card
+            this.showMessage('Product Deleted Successfully', 'warning');
         }
     }
 
-    showMessage(){
+    showMessage(message, css_class){
+        const div = document.createElement('div');
+        div.className = `alert alert-${css_class} mt-3`;
+        div.appendChild(document.createTextNode(message));
+        //Mostrando en el Dom la alert
+        const container = document.querySelector('.container');
+        const app = document.querySelector('#app');
 
+        container.insertBefore(div, app);
+
+        //Temporizador de alerta para que desaparezca
+        setTimeout(function(){
+            document.querySelector('.alert').remove();
+        }, 1400);
     }
 }
 
@@ -52,8 +65,15 @@ document.getElementById('product-form')
 
         const ui = new UI();
 
+        //Validaciones
+        if (name === '' || price === '' || year === '') {
+            return ui.showMessage('Complete Fields Please', 'danger');
+        }
+
         ui.addProduct(product);
         ui.resetForm();
+
+        ui.showMessage('Product Added Successfully', 'success');
 
         //Cancelar evento reload de la app
         e.preventDefault();
